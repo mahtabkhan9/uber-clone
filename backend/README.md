@@ -140,6 +140,71 @@ Response: 400 Bad Request - "First name must be atleast 3 characters long"
 
 ---
 
+## User Login
+
+### POST `/user/login`
+
+Authenticate an existing user and receive a JWT access token.
+
+### Request Body
+
+```json
+{
+  "email": "string (required, valid email format)",
+  "password": "string (required, min 6 characters)"
+}
+```
+
+#### Required Fields:
+- **email** - Valid email address
+- **password** - Password (minimum 6 characters)
+
+### Validation Rules
+
+| Field | Validation | Error Message |
+|-------|-----------|---------------|
+| email | Must be a valid email format | "Invalid Email" |
+| password | Must be at least 6 characters long | "Password must be atleast 6 characters long" |
+
+### Success Response (Status Code: 200 OK)
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "_id": "507f1f77bcf86cd799439011",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john@example.com",
+    "socketId": null,
+    "__v": 0
+  }
+}
+```
+
+### Error Response (Status Code: 401 Unauthorized)
+
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+### Example Request
+
+```bash
+curl -X POST http://localhost:3000/user/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john@example.com",
+    "password": "securePassword123"
+  }'
+```
+
+---
+
 ### Notes
 
 - The password is securely hashed using bcrypt before storage
