@@ -3,7 +3,6 @@ const userService = require('../services/user.service')
 const { validationResult } = require('express-validator')
 
 
-
 module.exports.registerUser = async(req, res, next) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -50,4 +49,9 @@ module.exports.loginUser = async(req, res, next) => {
     const token = user.generateAuthToken();
 
     res.status(200).json({token, user});
+}
+
+
+module.exports.getUserProfile = async(req, res, next) => {
+    
 }
